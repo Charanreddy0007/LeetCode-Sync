@@ -25,6 +25,7 @@ LeetCode Sync automatically detects new accepted LeetCode submissions, generates
 - [Tech Stack](#Tech-Stack)
 - [Installation](#Installation)
 - [Configuration](#Configuration)
+- [GitHub Actions Setup](#GitHub-Actions-Setup)
 - [Usage](#Usage)
 
 ##  Features
