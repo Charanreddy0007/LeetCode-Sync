@@ -1,0 +1,113 @@
+# -----------------------------------------------------------------------------
+# LeetCode Sync - GitHub Actions Workflow
+#
+# This workflow automatically synchronizes accepted LeetCode solutions to GitHub.
+#
+# Workflow:
+#   1. Checkout the LeetCode Sync repository.
+#   2. Checkout the private database repository.
+#   3. Copy database.db into the project.
+#   4. Create the .env file from GitHub Secrets.
+#   5. Run main.py.
+#   6. Save the updated database.db back to the private repository.
+#
+# Required Repository Secrets:
+#
+#   LEETCODE_SESSION   - LeetCode session cookie
+#   CSRFTOKEN          - LeetCode CSRF token
+#   TOKEN_GITHUB       - GitHub Personal Access Token
+#   OWNER              - GitHub username
+#   REPO               - Repository to synchronize
+#   DB_REPOSITORY      - Private repository containing database.db
+#   DB_REPO_TOKEN      - Token with access to DB_REPOSITORY
+#
+# -----------------------------------------------------------------------------
+
+name: Run LeetCode Sync
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout LeetCode Sync
+      - name: Checkout LeetCode Sync
+        uses: actions/checkout@v4
+
+      # Checkout private database repository
+      - name: Checkout Database Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.DB_REPOSITORY }}
+          token: ${{ secrets.DB_REPO_TOKEN }}
+          path: db_repo
+
+      # Copy database.db into the project
+      - name: Copy Database
+        run: |
+          mkdir -p database
+
+          if [ ! -f db_repo/database.db ]; then
+            echo "database.db not found."
+            exit 1
+          fi
+
+          cp db_repo/database.db database/database.db
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Create .env
+      - name: Create Environment File
+        run: |
+          cat <<EOF > .env
+          LEETCODE_SESSION=${{ secrets.LEETCODE_SESSION }}
+          CSRFTOKEN=${{ secrets.CSRFTOKEN }}
+          TOKEN_GITHUB=${{ secrets.TOKEN_GITHUB }}
+          OWNER=${{ vars.OWNER }}
+          REPO=${{ vars.REPO }}
+          EOF
+
+      # Run LeetCode Sync
+      - name: Run Sync
+        run: python main.py
+
+      # Copy updated database back
+      - name: Save Updated Database
+        if: always()
+        run: |
+          cp database/database.db db_repo/database.db
+
+      # Commit updated database
+      - name: Commit Database
+        working-directory: db_repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add database.db
+
+          if git diff --cached --quiet; then
+            echo "Database unchanged."
+          else
+            git commit -m "Update synchronization state"
+            git push
+          fi
