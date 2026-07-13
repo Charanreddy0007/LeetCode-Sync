@@ -351,6 +351,21 @@ CSRFTOKEN=xxxxxxxxxxxxxxxx
 OWNER="Your GitHub username"
 REPO="Your REPO Name"
 ```
+## GitHub Actions Setup
+
+1. Fork or clone this repository.
+2. Add the required repository secrets:
+   - `TOKEN_GITHUB`
+   - `LEETCODE_SESSION`
+   - `CSRFTOKEN`
+   - `OWNER`
+   - `REPO`
+   - `DB_REPOSITORY`
+   - `DB_REPO_TOKEN`
+3. Enable GitHub Actions for the repository.
+4. The workflow runs automatically every 2 hours or can be triggered manually from the **Actions** tab.
+
+> Note: The synchronization state is stored in a separate private repository (LeetCode-Database). Configure DB_REPOSITORY and DB_REPO_TOKEN before enabling the workflow.
 
 ## Usage
 ``` bash
