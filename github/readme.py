@@ -172,7 +172,7 @@ This repository is automatically synchronized using **LeetCode Sync**. View the 
 </tr>
 </table>
 
-
+> **Note:** Repository statistics include all accepted submissions. Runtime and memory averages include SQL solutions, which may affect the reported averages.
 ---
 
 Auto-generated using [**LeetCode Sync**]("https://github.com/Charanreddy0007/LeetCode-Sync.git")
