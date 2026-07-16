@@ -28,7 +28,8 @@ def avg_runtime_memory(memory_runtime):
 
     for i in memory_runtime:
         
-        mem = float(i[0].replace(" MB", ""))
+        if i[0].endswith(" MB"):
+            mem = float(i[0].replace(" MB", ""))
         memory_sum += mem
         memory_count += 1
 
