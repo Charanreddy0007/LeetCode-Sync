@@ -44,5 +44,6 @@ EXTENSIONS = {
         "elixir": ".ex",
         "erlang": ".erl",
         "racket": ".rkt",
+        "mysql": ".sql",
     }
 
