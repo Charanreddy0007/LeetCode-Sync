@@ -105,7 +105,7 @@ def root_gen_readme(new_current_id):
     readme = f"""
 # Leetcode Solutions
 
-This repository is automatically synchronized using **LeetCode Sync**. View the [source code]("https://github.com/Charanreddy0007/LeetCode-Sync.git").
+This repository is automatically synchronized using **LeetCode Sync**. View the [**source code**](https://github.com/Charanreddy0007/LeetCode-Sync.git).
 
 ---
 
@@ -175,7 +175,7 @@ This repository is automatically synchronized using **LeetCode Sync**. View the 
 > **Note:** Repository statistics include all accepted submissions. Runtime and memory averages include SQL solutions, which may affect the reported averages.
 ---
 
-Auto-generated using [**LeetCode Sync**]("https://github.com/Charanreddy0007/LeetCode-Sync.git")
+Auto-generated using **LeetCode Sync**
 
 | # | Id | Problem |   Difficulty  | Language | Runtime | Memory | Leetcode Link |
 |---|----|---------|---------------|----------|---------|--------|:-------------:|
