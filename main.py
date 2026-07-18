@@ -131,3 +131,4 @@ if status == 7:
 
 # FINAL COMMIT
 repository.commit()
+repository.close()
