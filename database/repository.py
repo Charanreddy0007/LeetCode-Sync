@@ -11,18 +11,25 @@ def commit():
 def insert_info_solutions(frontend_id, title, title_slug, difficulty, topic_tags):
     cursor.execute(
         """
-        INSERT OR IGNORE INTO solutions (
-        frontend_id, 
-        title, 
-        title_slug, 
-        difficulty, 
-        topic_tags
-        ) 
-        VALUES (?, ?, ?, ?, ?)
-        """,
-        (frontend_id, title, title_slug, difficulty, topic_tags, )
+        SELECT 1 FROM solutions
+        WHERE frontend_id = ?
+        """, (frontend_id,)
     )
 
+    if cursor.fetchone() is None:
+        cursor.execute(
+            """
+            INSERT INTO solutions (
+                frontend_id, 
+                title, 
+                title_slug, 
+                difficulty, 
+                topic_tags
+            ) 
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (frontend_id, title, title_slug, difficulty, topic_tags, )
+        )
 
 def update_submisstion_solutions(submission_id, language_verbose, language, memory, runtime, current_id):
     cursor.execute(
@@ -379,3 +386,7 @@ def updated_time(current_id):
 
 def rollback():
     conn.rollback()
+
+def close():
+    cursor.close()
+    conn.close()
