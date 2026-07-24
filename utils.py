@@ -1,6 +1,6 @@
 import requests
 import database.repository as repository
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 
 # Get the SHA to update
@@ -61,4 +61,18 @@ def run_step(retry_code, current_id, func, *args):
         repository.updated_time(current_id)
         repository.update_error(retry_code + 1, str(e), current_id)
     
-        
+
+def current_streak():
+    dates = repository.streak(date)
+
+    today = date.today()
+    streak = 0
+
+    if today not in dates:
+        today -= timedelta(days=1)
+
+    while today in dates:
+        streak += 1
+        today -= timedelta(days=1)
+
+    return streak

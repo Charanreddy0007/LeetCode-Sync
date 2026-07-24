@@ -384,6 +384,17 @@ def updated_time(current_id):
         """, (current_id, )
     )
 
+def streak(date):
+    cursor.execute("""
+        SELECT DISTINCT DATE(updated_at)
+        FROM solutions
+        ORDER BY DATE(updated_at) DESC
+    """)
+
+    dates = {date.fromisoformat(row[0]) for row in cursor.fetchall()}
+
+    return dates
+
 def rollback():
     conn.rollback()
 

@@ -105,6 +105,11 @@ def root_gen_readme(new_current_id):
     readme = f"""
 # Leetcode Solutions
 
+<div align="right">
+    <h3>🔥 {utils.current_streak()} Day Streak</h3>
+</div>
+
+
 This repository is automatically synchronized using **LeetCode Sync**. View the [**source code**](https://github.com/Charanreddy0007/LeetCode-Sync.git).
 
 ---
