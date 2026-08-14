@@ -99,7 +99,7 @@ def root_gen_readme(new_current_id):
 
     # Gets top 10 most used tags a batch
     tags_batch = "&nbsp;".join(
-        f"<code>{i[0]}</code>" for i in counter.most_common(10)
+        f"<code>{i[0]}</code>" for i in counter.most_common(15)
     ) 
 
     readme = f"""
