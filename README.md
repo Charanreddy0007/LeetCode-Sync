@@ -422,6 +422,9 @@ TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxx
 LEETCODE_SESSION=xxxxxxxxxxxxxxxx
 CSRFTOKEN=xxxxxxxxxxxxxxxx
 
+GEMINI_API_KEY=xxxxxxxxxxxxxxxx
+GEMINI_MODEL=gemini-x.x-xxx
+
 OWNER="Your GitHub username"
 REPO="Your REPO Name"
 ```
