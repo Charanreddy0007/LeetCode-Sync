@@ -30,7 +30,7 @@
 #
 # -----------------------------------------------------------------------------
 
-name: Run LeetCode Sync
+name: LeetCode Sync
 
 permissions:
   contents: write
