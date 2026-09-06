@@ -1,25 +1,32 @@
 # -----------------------------------------------------------------------------
 # LeetCode Sync - GitHub Actions Workflow
 #
-# This workflow automatically synchronizes accepted LeetCode solutions to GitHub.
+# This workflow automatically synchronizes accepted LeetCode solutions to GitHub
+# and uses Gemini AI to generate solutions in multiple programming languages.
 #
 # Workflow:
 #   1. Checkout the LeetCode Sync repository.
 #   2. Checkout the private database repository.
 #   3. Copy database.db into the project.
-#   4. Create the .env file from GitHub Secrets.
+#   4. Create the .env file from GitHub Secrets/Variables.
 #   5. Run main.py.
-#   6. Save the updated database.db back to the private repository.
+#   6. Gemini translates accepted solutions into multiple languages.
+#   7. Save the updated database.db back to the private repository.
 #
 # Required Repository Secrets:
 #
 #   LEETCODE_SESSION   - LeetCode session cookie
 #   CSRFTOKEN          - LeetCode CSRF token
 #   TOKEN_GITHUB       - GitHub Personal Access Token
+#   DB_REPO_TOKEN      - Token with access to DB_REPOSITORY
+#   GEMINI_API_KEY     - Google Gemini API key
+#
+# Required Repository Variables:
+#
 #   OWNER              - GitHub username
 #   REPO               - Repository to synchronize
 #   DB_REPOSITORY      - Private repository containing database.db
-#   DB_REPO_TOKEN      - Token with access to DB_REPOSITORY
+#   GEMINI_MODEL       - Gemini model used for translation
 #
 # -----------------------------------------------------------------------------
 
@@ -84,6 +91,8 @@ jobs:
           TOKEN_GITHUB=${{ secrets.TOKEN_GITHUB }}
           OWNER=${{ vars.OWNER }}
           REPO=${{ vars.REPO }}
+          GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL=${{ vars.GEMINI_MODEL }}
           EOF
 
       # Run LeetCode Sync
