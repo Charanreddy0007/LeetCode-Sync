@@ -17,6 +17,7 @@ LeetCode Sync automatically detects new accepted LeetCode submissions, generates
 ## Contents
 
 - [Features](#Features)
+- [AI-Powered Code Translation](#AI-Powered-Code-Translation)
 - [Generated Output](#Generated-Output)
 - [System Architecture](#System-Architecture)
 - [Synchronization Pipeline Detailed](#Synchronization-Pipeline-Detailed)
@@ -40,6 +41,69 @@ LeetCode Sync automatically detects new accepted LeetCode submissions, generates
 - GitHub Actions automation
 - Automatic folder generation
 - SHA tracking for updates
+- AI-powered code translation
+- Multi-language solution generation
+
+## AI-Powered Code Translation
+
+LeetCode Sync can use Google's Gemini API to automatically translate
+the original accepted solution into multiple programming languages.
+
+The original LeetCode solution is sent to Gemini along with its source
+language. Gemini then generates equivalent solutions in:
+
+- Python
+- C++
+- JavaScript
+- TypeScript
+- Java
+
+### Translation Flow
+
+```text
+                  Original LeetCode Solution
+                              │
+                              ▼
+                        Source Language
+                              │
+                              ▼
+                         Gemini API
+                              │
+                              ▼
+             ┌───────┬─────┬───────┬───────────┐
+             ▼       ▼     ▼       ▼           ▼
+          Python    C++  Java   JavaScript  TypeScript
+                           
+                           
+                           
+```
+
+The generated translations are validated against a structured response
+schema before being added to the synchronized solution.
+
+Example
+
+If the original accepted solution is written in:
+
+```
+Python
+```
+
+LeetCode Sync sends the Python solution to Gemini and generates:
+
+```
+Python
+C++
+JavaScript
+TypeScript
+Java
+```
+
+This allows each synchronized LeetCode problem to contain solutions
+in multiple programming languages without manually rewriting the
+original solution.
+
+
 
 ## Generated Output
 ### Root README Example
@@ -252,6 +316,10 @@ Leetcode Sync/
 ├── README.md               # Documentation
 ├── utils.py                # Utilities
 │
+├─── ai/          
+│   ├── prompt.txt          # AI translation prompt    
+│   └── translator.py       # AI-powered multi-language code translator
+│
 ├─── database/              
 │   ├── connection.py       # Database connection
 │   ├── database.db         # SQLite database
@@ -287,6 +355,9 @@ TOKEN=your_github_token
 LEETCODE_SESSION=your_session_cookie
 CSRFTOKEN=your_csrf_token
 
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-3.6-flash
+
 OWNER="Your GitHub username"
 REPO="Your REPO Name"
 ```
@@ -296,7 +367,9 @@ REPO="Your REPO Name"
 | LEETCODE_SESSION | Your authenticated LeetCode session cookie |
 | CSRFTOKEN        | LeetCode CSRF token                        |
 | OWNER            | GitHub Username                            |
-| REPO             | Name of the Repository
+| REPO             | Name of the Repository                     |
+|GEMINI_API_KEY	 | Google Gemini API key                      |
+|GEMINI_MODEL	 | Gemini model used for code translation     |
 
 ### 1. Obtaining LeetCode Cookies
 

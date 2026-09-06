@@ -7,7 +7,9 @@ load_dotenv(".env")
 OWNER = os.getenv("OWNER")
 REPO = os.getenv("REPO")
 TOKEN = os.getenv("TOKEN_GITHUB")
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL")
 
 COOKIES = {
         'csrftoken' : os.getenv("CSRFTOKEN"),

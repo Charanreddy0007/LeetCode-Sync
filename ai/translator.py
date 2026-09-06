@@ -20,6 +20,7 @@ class TranslationResult(BaseModel):
 def translate_solution(solution: str, source_language: str) -> dict:
 
     api_key = os.getenv("GEMINI_API_KEY")
+    gemini_model = os.getenv("GEMINI_MODEL")
 
     if not api_key:
         raise ValueError(
@@ -57,7 +58,7 @@ def translate_solution(solution: str, source_language: str) -> dict:
             contextlib.redirect_stderr(io.StringIO()),
         ):
             response = client.models.generate_content(
-                model=os.getenv("GEMINI_MODEL", "gemini-3.7-flash"),
+                model=gemini_model,
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
