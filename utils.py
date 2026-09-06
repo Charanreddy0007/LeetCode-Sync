@@ -1,5 +1,8 @@
+import config
 import requests
 import database.repository as repository
+from ai.translator import translate_solution
+from github.api import uplode_codes 
 from datetime import datetime, date, timedelta
 
 
@@ -60,6 +63,15 @@ def run_step(retry_code, current_id, func, *args):
         repository.rollback()
         repository.updated_time(current_id)
         repository.update_error(retry_code + 1, str(e), current_id)
+
+def run_step_code(func, *args):
+
+    try:
+        result = func(*args)
+        return result
+    
+    except Exception as e:
+        print("Error in genrating codes with AI")
     
 
 def current_streak():
@@ -76,3 +88,34 @@ def current_streak():
         today -= timedelta(days=1)
 
     return streak
+
+def multiply_codes(code, org_language, path, frontend_id, title_slug):
+
+    org_language.lower()
+    result = translate_solution(code, org_language)
+
+    solutions = {
+        "python": result["python"],
+        "cpp": result["cpp"],
+        "javascript": result["javascript"],
+        "typescript": result["typescript"],
+        "java": result["java"],
+    }
+
+    for language, code in solutions.items():
+
+        if language == org_language:
+            print(f"      {org_language} Done ✓")
+
+        elif language != org_language:
+
+            language_ext = config.EXTENSIONS.get(language.lower(), ".txt")
+            temp_path = f"{path}/Solution{language_ext}"
+
+            status_code = uplode_codes(
+                path=temp_path,
+                code=code,
+                message=f"Added {language} Solution for {frontend_id:04}_{title_slug}"
+            )
+
+            print(f"      {language} Done ✓")

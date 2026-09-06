@@ -395,6 +395,17 @@ def streak(date):
 
     return dates
 
+def get_language(current_id):
+    cursor.execute(
+        """
+        SELECT 
+        language
+        FROM solutions 
+        WHERE id = ? 
+        """, (current_id, ))
+    return cursor.fetchone()[0]
+
+
 def rollback():
     conn.rollback()
 

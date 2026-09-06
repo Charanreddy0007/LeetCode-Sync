@@ -5,23 +5,22 @@ load_dotenv(".env")
 
 # Modify according to yours 
 OWNER = os.getenv("OWNER")
-
 REPO = os.getenv("REPO")
+TOKEN = os.getenv("TOKEN_GITHUB")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+COOKIES = {
+        'csrftoken' : os.getenv("CSRFTOKEN"),
+        'LEETCODE_SESSION' : os.getenv("LEETCODE_SESSION"),
+}
 
 DATABASE = "database/database.db"
-
-TOKEN = os.getenv("TOKEN_GITHUB")
 
 URL = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/"
 
 QUESTION_URL = f"https://leetcode.com/problems/"
 
 GRAPHQL_URL = "https://leetcode.com/graphql"
-
-COOKIES = {
-        'csrftoken' : os.getenv("CSRFTOKEN"),
-        'LEETCODE_SESSION' : os.getenv("LEETCODE_SESSION"),
-}
 
 EXTENSIONS = {
         "python": ".py",

@@ -72,3 +72,22 @@ def upload_file(path, content, message, generate, new_current_id):
     return r.status_code
 
 
+def uplode_codes(path, code, message):
+
+    TOKEN = config.TOKEN
+    url = f"{config.URL}{path}"
+    sha = None
+
+    data = {
+        "message": message,
+        "content": base64.b64encode(code.encode()).decode(),
+    }
+
+    headers = {
+    "Authorization": f"Bearer {TOKEN}",
+    "Accept": "application/vnd.github+json"
+    }
+
+    r = requests.put(url, headers=headers, json=data, timeout=60)
+
+    return r.status_code

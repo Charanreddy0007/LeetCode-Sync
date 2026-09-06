@@ -4,9 +4,10 @@ import config
 import database.schema
 import database.repository as repository
 
-from utils import run_step
+from utils import run_step, run_step_code, multiply_codes
 from github.api import upload_file
 from leetcode.question import get_question
+from ai.translator import translate_solution
 from github.readme import root_gen_readme, gen_readme
 from leetcode.api import set_problem_info, set_submission_info, set_code
 
@@ -67,8 +68,9 @@ if status == 3:
 
 # Initialize For GIT
 difficulty, frontend_id, title_slug, language_verbose, code, status = repository.get_path(current_id)
-solution_path = f"{difficulty}/{frontend_id:04}_{title_slug}/Solution{language_verbose}"
-readme_path   = f"{difficulty}/{frontend_id:04}_{title_slug}/README.md"
+path          = f"{difficulty}/{frontend_id:04}_{title_slug}"
+solution_path = f"{path}/Solution{language_verbose}"
+readme_path   = f"{path}/README.md"
 
 
 # Uplode Problem README
@@ -90,15 +92,26 @@ if  status == 4:
 # Uplodes Problem Code
 status = repository.get_status(current_id)
 if status == 5:
+    language = repository.get_language(current_id)
+
     code_status = run_step(
         retry_code,
         current_id,
         upload_file,
          solution_path,
          code,
-         f"Added Solution for {frontend_id:04}_{title_slug}", 
+         f"Added {language} Solution for {frontend_id:04}_{title_slug}", 
          "solution", 
          current_id
+    )
+
+    run_step_code(
+        multiply_codes,
+         code,
+         language,
+         path,
+         frontend_id,
+         title_slug
     )
 
     print(f"(6/7) Done code: {code_status}")
@@ -119,6 +132,7 @@ if status == 6:
          current_id
     )
     print(f"(7/7) Done root_gen_readme: {root_readme_status}")
+
 
 # ALL DONE
 status = repository.get_status(current_id)
